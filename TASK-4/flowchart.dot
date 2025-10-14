@@ -1,0 +1,32 @@
+digraph Universite_Ders_Kaydi_Sistemi {
+    rankdir=TB;
+    node [shape=rectangle, style=rounded, fontname="Arial"];
+
+    Start [label="Başla", shape=ellipse, style=filled, fillcolor=lightgreen];
+    Login [label="Kullanıcı girişi yap"];
+    VerifyLogin [label="Giriş bilgileri doğru mu?", shape=diamond];
+    ShowCourses [label="Ders listesini göster"];
+    SelectCourse [label="Kullanıcı ders seç"];
+    CheckFinish [label="Ders = 'Bitir' mi?", shape=diamond];
+    CheckQuota [label="Kontenjan müsait mi?", shape=diamond];
+    AddCourse [label="Dersi kaydet"];
+    CourseAdded [label="Ders başarıyla eklendi"];
+    CourseFull [label="Kontenjan dolu"];
+    FinishReg [label="Ders kaydı tamamlandı"];
+    WrongLogin [label="Hatalı numara veya şifre"];
+    End [label="Bitiş", shape=ellipse, style=filled, fillcolor=lightgreen];
+
+    // Akış bağlantıları
+    Start -> Login -> VerifyLogin;
+    VerifyLogin -> ShowCourses [label="Evet"];
+    VerifyLogin -> WrongLogin [label="Hayır"];
+    ShowCourses -> SelectCourse -> CheckFinish;
+    CheckFinish -> CheckQuota [label="Hayır"];
+    CheckFinish -> FinishReg [label="Evet"];
+    CheckQuota -> AddCourse [label="Evet"];
+    CheckQuota -> CourseFull [label="Hayır"];
+    AddCourse -> CourseAdded -> ShowCourses;
+    CourseFull -> ShowCourses;
+    FinishReg -> End;
+    WrongLogin -> End;
+}
