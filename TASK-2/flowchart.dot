@@ -1,0 +1,33 @@
+digraph Online_Alisveris_Sepeti {
+    rankdir=TB;
+    node [shape=rectangle, style=rounded, fontname="Arial"];
+
+    Start [label="Başla", shape=ellipse, style=filled, fillcolor=lightgreen];
+    CreateCart [label="Boş sepet oluştur"];
+    ShowProducts [label="Ürünleri göster"];
+    SelectProduct [label="Kullanıcı ürün seç"];
+    CheckExit [label="Ürün = 'Çıkış' mı?", shape=diamond];
+    GetQuantity [label="Adet al"];
+    AddToCart [label="Ürünü sepete ekle"];
+    ShowAdded [label="Sepete eklendi mesajı göster"];
+    CalculateTotal [label="Sepet toplamını hesapla"];
+    ShowTotal [label="Toplamı göster"];
+    ChoosePayment [label="Ödeme yöntemi seç"];
+    CheckPayment [label="Kartla mı ödenecek?", shape=diamond];
+    GetCardInfo [label="Kart bilgilerini al"];
+    ConfirmPayment [label="Ödemeyi onayla"];
+    PaymentSuccess [label="Ödeme başarılı!\nSipariş hazırlanıyor"];
+    CashOnDelivery [label="Kapıda ödeme seçildi\nSipariş hazırlanıyor"];
+    End [label="Bitiş", shape=ellipse, style=filled, fillcolor=lightgreen];
+
+    // Akış bağlantıları
+    Start -> CreateCart -> ShowProducts -> SelectProduct -> CheckExit;
+    CheckExit -> GetQuantity [label="Hayır"];
+    CheckExit -> CalculateTotal [label="Evet"];
+    GetQuantity -> AddToCart -> ShowAdded -> ShowProducts;
+    CalculateTotal -> ShowTotal -> ChoosePayment -> CheckPayment;
+    CheckPayment -> GetCardInfo [label="Evet"];
+    GetCardInfo -> ConfirmPayment -> PaymentSuccess -> End;
+    CheckPayment -> CashOnDelivery [label="Hayır"];
+    CashOnDelivery -> End;
+}
