@@ -1,0 +1,31 @@
+digraph Akilli_Ev_Guvenlik_Sistemi {
+    rankdir=TB;
+    node [shape=rectangle, style=rounded, fontname="Arial"];
+
+    Start [label="Başla", shape=ellipse, style=filled, fillcolor=lightgreen];
+    SystemOn [label="Sistem aç"];
+    Login [label="Kullanıcı kodu ve şifre al"];
+    VerifyLogin [label="Giriş bilgileri doğru mu?", shape=diamond];
+    ShowStatus [label="Sistem aktif"];
+    ReadSensor [label="Sensör durumunu oku"];
+    CheckAlert [label="Hareket veya kapı açık mı?", shape=diamond];
+    TriggerAlarm [label="Alarmı çalıştır"];
+    SendNotification [label="Bildirim gönder"];
+    NormalStatus [label="Her şey normal"];
+    WrongLogin [label="Yetkisiz erişim! Sistem kilitlendi"];
+    SystemLock [label="Sistem kilitlendi"];
+    SystemOff [label="Sistem kapat"];
+    End [label="Bitiş", shape=ellipse, style=filled, fillcolor=lightgreen];
+
+    // Akış bağlantıları
+    Start -> SystemOn -> Login -> VerifyLogin;
+    VerifyLogin -> ShowStatus [label="Evet"];
+    VerifyLogin -> WrongLogin [label="Hayır"];
+    ShowStatus -> ReadSensor -> CheckAlert;
+    CheckAlert -> TriggerAlarm [label="Evet"];
+    CheckAlert -> NormalStatus [label="Hayır"];
+    TriggerAlarm -> SendNotification -> SystemOff;
+    NormalStatus -> SystemOff;
+    WrongLogin -> SystemLock -> SystemOff;
+    SystemOff -> End;
+}
