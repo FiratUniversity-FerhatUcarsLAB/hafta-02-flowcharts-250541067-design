@@ -1,0 +1,31 @@
+digraph Hastane_Randevu_Sistemi {
+    rankdir=TB;
+    node [shape=rectangle, style=rounded, fontname="Arial"];
+
+    Start [label="Başla", shape=ellipse, style=filled, fillcolor=lightgreen];
+    Login [label="Kullanıcı girişi yap"];
+    VerifyLogin [label="Giriş bilgileri doğru mu?", shape=diamond];
+    ShowBranches [label="Branş listesini göster"];
+    SelectBranch [label="Branş seç"];
+    ShowDoctors [label="Seçilen branşa göre doktorları göster"];
+    SelectDoctor [label="Doktor seç"];
+    ShowDates [label="Doktorun uygun tarihlerini göster"];
+    SelectDate [label="Tarih seç"];
+    CheckAvailability [label="Randevu müsait mi?", shape=diamond];
+    SaveAppointment [label="Randevuyu kaydet"];
+    Success [label="Randevu başarıyla oluşturuldu"];
+    NotAvailable [label="Seçilen tarih dolu\nBaşka tarih seçiniz"];
+    WrongLogin [label="Hatalı TC veya şifre"];
+    End [label="Bitiş", shape=ellipse, style=filled, fillcolor=lightgreen];
+
+    // Akış bağlantıları
+    Start -> Login -> VerifyLogin;
+    VerifyLogin -> ShowBranches [label="Evet"];
+    VerifyLogin -> WrongLogin [label="Hayır"];
+    ShowBranches -> SelectBranch -> ShowDoctors -> SelectDoctor -> ShowDates -> SelectDate -> CheckAvailability;
+    CheckAvailability -> SaveAppointment [label="Evet"];
+    CheckAvailability -> NotAvailable [label="Hayır"];
+    SaveAppointment -> Success -> End;
+    NotAvailable -> ShowDates;
+    WrongLogin -> End;
+}
