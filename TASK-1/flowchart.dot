@@ -1,0 +1,36 @@
+digraph ATM_Para_Cekme {
+    rankdir=TB;
+    node [shape=rectangle, style=rounded, fontname="Arial"];
+
+    Start [label="Başla", shape=ellipse, style=filled, fillcolor=lightgreen];
+    InsertCard [label="Kartı Tak"];
+    EnterPIN [label="PIN Gir"];
+    VerifyPIN [label="PIN Doğru mu?", shape=diamond];
+    GetBalance [label="Hesap Bakiyesi Al"];
+    EnterAmount [label="Çekilecek Miktarı Gir"];
+    CheckBalance [label="miktar <= bakiye ?", shape=diamond];
+    CheckMultiple [label="miktar % 10 == 0 ?", shape=diamond];
+    DispenseCash [label="Para Ver"];
+    UpdateBalance [label="Bakiyeyi Güncelle"];
+    SuccessMsg [label="İşlem Başarılı\nYeni Bakiyeniz Gösterilir"];
+    NotMultiple [label="Lütfen 10 TL’nin katı bir miktar giriniz."];
+    Insufficient [label="Yetersiz Bakiye"];
+    WrongPIN [label="Geçersiz PIN"];
+    ReturnCard [label="Kartı İade Et"];
+    End [label="Bitiş", shape=ellipse, style=filled, fillcolor=lightgreen];
+
+    // Akış bağlantıları
+    Start -> InsertCard -> EnterPIN -> VerifyPIN;
+    VerifyPIN -> GetBalance [label="Evet"];
+    VerifyPIN -> WrongPIN [label="Hayır"];
+    GetBalance -> EnterAmount -> CheckBalance;
+    CheckBalance -> CheckMultiple [label="Evet"];
+    CheckBalance -> Insufficient [label="Hayır"];
+    CheckMultiple -> DispenseCash [label="Evet"];
+    CheckMultiple -> NotMultiple [label="Hayır"];
+    DispenseCash -> UpdateBalance -> SuccessMsg -> ReturnCard;
+    NotMultiple -> ReturnCard;
+    Insufficient -> ReturnCard;
+    WrongPIN -> ReturnCard;
+    ReturnCard -> End;
+}
